@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -10,9 +12,34 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Login successful", data);
+        localStorage.setItem("token", data.token);
+      } else {
+        console.error("Login error", data.error);
+      }
+    } catch (error) {
+      console.error("An error occurred", error);
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Sol tarafta marka bölümü */}
       <div className="flex-1 bg-[#262160] items-center justify-center hidden lg:flex">
         <div className="max-w-lg text-center text-white">
           <h1 className="text-4xl font-bold mb-6">Ascendio CV</h1>
@@ -35,22 +62,34 @@ function LoginPage() {
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Input
-                type="email"
-                placeholder="name@example.com"
-                className="h-11"
-              />
-            </div>
-            <div className="space-y-2">
-              <Input type="password" placeholder="Password" className="h-11" />
-            </div>
+            <form className="space-y-4" onSubmit={handleLogin}>
+              <div className="space-y-2">
+                <Input
+                  type="email"
+                  placeholder="name@example.com"
+                  className="h-11"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  className="h-11"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <Button type="submit" className="w-full">
+                Sign In
+              </Button>
+            </form>
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
-            <Button className="w-full">Sign In</Button>
             <p className="text-center text-sm text-gray-500">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <a
                 href="/register"
                 className="font-medium text-blue-600 hover:text-blue-700"

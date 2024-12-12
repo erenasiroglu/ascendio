@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -12,9 +14,36 @@ import google from "../../../../public/google.svg";
 import Image from "next/image";
 
 function RegisterPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, username }),
+      });
+
+      const data = await response.json();
+      console.log("Registration response:", data);
+
+      if (response.ok) {
+        console.log("Registration successful", data);
+        alert("Please check your email to verify your account");
+      } else {
+        console.error("Registration error", data.error);
+      }
+    } catch (error) {
+      console.error("An error occurred", error);
+    }
+  };
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Sol tarafta marka bölümü */}
       <div className="flex-1 bg-[#262160] items-center justify-center hidden lg:flex">
         <div className="max-w-lg text-center text-white">
           <h1 className="text-4xl font-bold mb-6">Ascendio CV</h1>
@@ -37,69 +66,86 @@ function RegisterPage() {
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Input type="text" placeholder="Full name" className="h-11" />
-            </div>
-            <div className="space-y-2">
-              <Input
-                type="email"
-                placeholder="name@example.com"
-                className="h-11"
-              />
-            </div>
-            <div className="space-y-2">
-              <Input
-                type="password"
-                placeholder="Create a password"
-                className="h-11"
-              />
-            </div>
+            <form className="space-y-4" onSubmit={handleRegister}>
+              <div className="space-y-2">
+                <Input
+                  type="text"
+                  placeholder="Full name"
+                  className="h-11"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Input
+                  type="email"
+                  placeholder="name@example.com"
+                  className="h-11"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Input
+                  type="password"
+                  placeholder="Create a password"
+                  className="h-11"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
 
-            <div className="text-sm text-gray-500">
-              By creating an account, you agree to our{" "}
-              <a href="/terms" className="text-blue-600 hover:text-blue-700">
-                Terms of Service
-              </a>{" "}
-              and{" "}
-              <a href="/privacy" className="text-blue-600 hover:text-blue-700">
-                Privacy Policy
-              </a>
-            </div>
+              <div className="text-sm text-gray-500">
+                By creating an account, you agree to our{" "}
+                <a href="/terms" className="text-blue-600 hover:text-blue-700">
+                  Terms of Service
+                </a>{" "}
+                and{" "}
+                <a
+                  href="/privacy"
+                  className="text-blue-600 hover:text-blue-700"
+                >
+                  Privacy Policy
+                </a>
+              </div>
+
+              <CardFooter className="flex flex-col space-y-4">
+                <Button type="submit" className="w-full">
+                  Create account
+                </Button>
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-gray-200" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">or</span>
+                  </div>
+                </div>
+                <Button
+                  variant="outline"
+                  className="w-full flex items-center justify-center"
+                >
+                  <Image
+                    className="mr-2"
+                    src={google}
+                    alt="Google"
+                    width={24}
+                    height={24}
+                  />
+                  Continue with Google
+                </Button>
+                <p className="text-center text-sm text-gray-500">
+                  Already have an account?{" "}
+                  <a
+                    href="/login"
+                    className="font-medium text-blue-600 hover:text-blue-700"
+                  >
+                    Sign in
+                  </a>
+                </p>
+              </CardFooter>
+            </form>
           </CardContent>
-
-          <CardFooter className="flex flex-col space-y-4">
-            <Button className="w-full">Create account</Button>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-gray-200" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">or</span>
-              </div>
-            </div>
-            <Button
-              variant="outline"
-              className="w-full flex items-center justify-center"
-            >
-              <Image
-                className="mr-2"
-                src={google}
-                alt="Google"
-                width={24}
-                height={24}
-              />
-              Continue with Google
-            </Button>
-            <p className="text-center text-sm text-gray-500">
-              Already have an account?{" "}
-              <a
-                href="/login"
-                className="font-medium text-blue-600 hover:text-blue-700"
-              >
-                Sign in
-              </a>
-            </p>
-          </CardFooter>
         </Card>
       </div>
     </div>
