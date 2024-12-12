@@ -12,8 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import google from "../../../../public/google.svg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 function RegisterPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -33,8 +35,9 @@ function RegisterPage() {
       console.log("Registration response:", data);
 
       if (response.ok) {
-        console.log("Registration successful", data);
-        alert("Please check your email to verify your account");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.userId);
+        router.push("/dashboard");
       } else {
         console.error("Registration error", data.error);
       }

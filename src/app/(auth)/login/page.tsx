@@ -10,8 +10,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,8 +30,9 @@ function LoginPage() {
 
       const data = await response.json();
       if (response.ok) {
-        console.log("Login successful", data);
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.userId);
+        router.push("/dashboard");
       } else {
         console.error("Login error", data.error);
       }
