@@ -12,25 +12,25 @@ const CVTypes = [
     id: 1,
     title: "Oxford",
     image: "/oxford-cv.svg",
-    description: "Professional & Traditional",
+    description: "Corporate and professional design",
   },
   {
     id: 2,
     title: "Creative",
     image: "/creative-cv.svg",
-    description: "Modern & Unique",
+    description: "Creative and modern approach",
   },
   {
     id: 3,
     title: "Modern",
     image: "/modern-cv.svg",
-    description: "Clean & Minimal",
+    description: "Clean and elegant look",
   },
   {
     id: 4,
     title: "Chronological",
     image: "/chronological-cv.svg",
-    description: "Time-based & Detailed",
+    description: "Time-based detailed format",
   },
 ];
 
@@ -94,11 +94,11 @@ export function CVTypeModal({ isOpen, onClose }: CVTypeModalProps) {
       <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-white rounded-2xl p-6 w-[650px] max-h-[90vh] overflow-y-auto">
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <div className="text-[24px] font-semibold text-gray-900">
+            <div className="text-lg font-semibold text-gray-900">
               Choose your CV template
             </div>
-            <div className="text-[12px] text-gray-600">
-              Select a template to start creating your CV
+            <div className="text-sm text-gray-600">
+              Don&apos;t worry, you can change this later
             </div>
           </div>
 
