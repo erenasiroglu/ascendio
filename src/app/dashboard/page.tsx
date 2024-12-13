@@ -1,12 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { PenIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ArrowRightIcon } from "lucide-react";
+import { CVTypeModal } from "@/modals/CVTypeModal";
 
 function DashboardPage() {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const DashboardCard = ({
     image,
@@ -80,7 +82,7 @@ function DashboardPage() {
             <DashboardCard
               image="/ascendio-dashboard.svg"
               title="CV Assistant"
-              onClick={() => router.push("/cv-assistant")}
+              onClick={() => setIsModalOpen(true)}
             />
             <DashboardCard
               image="/ascendio-letter.svg"
@@ -101,6 +103,7 @@ function DashboardPage() {
           </div>
         </div>
       </div>
+      <CVTypeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
