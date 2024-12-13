@@ -51,8 +51,7 @@ function RegisterPage() {
         <div className="max-w-lg text-center text-white">
           <h1 className="text-4xl font-bold mb-6">Ascendio CV</h1>
           <p className="text-lg text-blue-100">
-            Create professional CVs with AI-powered tools and stand out from the
-            crowd
+            Create best professional CVs with AI Assistant
           </p>
         </div>
       </div>
